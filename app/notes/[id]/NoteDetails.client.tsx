@@ -5,11 +5,15 @@ import { fetchNotesById } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import css from './NoteDetails.module.css';
-import Loader from '@/components/Loader/Loader';
 
 const NoteDetailsClient = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: note, isLoading } = useQuery({
+  const {
+    data: note,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNotesById(id),
     refetchOnMount: false,
@@ -22,8 +26,15 @@ const NoteDetailsClient = () => {
     );
   }
 
-  if (!note) {
-    throw new Error('Note not found');
+  if (isError || !note) {
+    return (
+      <Section>
+        <p className={css.mid}>
+          Something went wrong
+          {error instanceof Error ? `: ${error.message}` : ''}.
+        </p>
+      </Section>
+    );
   }
 
   return (

@@ -38,6 +38,7 @@ const NotesClient = () => {
   };
   const onChangeSearch = useDebouncedCallback((value: string) => {
     setSearch(value);
+    setPage(1);
   }, 1000);
 
   return (
@@ -55,14 +56,14 @@ const NotesClient = () => {
           Create note +
         </button>
       </div>
+      {isLoading && !data && <Loader />}
       {isError && error && <Error error={error as Error} />}
       {isSuccess && data && data?.notes.length > 0 ? (
         <NoteList notes={data.notes} />
       ) : (
         !isLoading && <p>Notes not found</p>
       )}
-      {isLoading && !data && <Loader />}
-      {/* {isError && <ErrorMessage />} */}
+
       {modalIsOpen && (
         <Modal closeModal={onCloseModal}>
           <NoteForm closeModal={onCloseModal} />
