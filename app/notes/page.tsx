@@ -1,5 +1,5 @@
 import Section from '@/components/Section/Section';
-import { fetchNotes } from '@/lib/api/api';
+import { fetchNotes } from '@/lib/api';
 import {
   dehydrate,
   HydrationBoundary,

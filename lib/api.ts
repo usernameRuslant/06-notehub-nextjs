@@ -47,7 +47,7 @@ export const fetchNotesById = async (id: string): Promise<Note> => {
 //   const { data } = await instance.get<Note>(`/notes/${id}`);
 //   return data;
 // };
-//проверка ошибки
+// проверка ошибки
 // export const fetchNotesById = async (id: string): Promise<Note> => {
 //   await new Promise((resolve) => setTimeout(resolve, 1000));
 //   throw new Error('Test error: could not fetch note');

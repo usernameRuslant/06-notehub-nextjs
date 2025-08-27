@@ -1,7 +1,7 @@
 'use client';
 
 import Section from '@/components/Section/Section';
-import { fetchNotesById } from '@/lib/api/api';
+import { fetchNotesById } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import css from './NoteDetails.module.css';
@@ -9,11 +9,7 @@ import Loader from '@/components/Loader/Loader';
 
 const NoteDetailsClient = () => {
   const { id } = useParams<{ id: string }>();
-  const {
-    data: note,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: note, isLoading } = useQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNotesById(id),
     refetchOnMount: false,
@@ -21,18 +17,15 @@ const NoteDetailsClient = () => {
   if (isLoading) {
     return (
       <Section>
-        <p>Loading, please wait...</p>
+        <p className={css.mid}>Loading, please wait...</p>
       </Section>
     );
   }
 
-  if (isError || !note) {
-    return (
-      <Section>
-        <p>Something went wrong.</p>
-      </Section>
-    );
+  if (!note) {
+    throw new Error('Note not found');
   }
+
   return (
     <Section>
       {note && (
@@ -46,7 +39,6 @@ const NoteDetailsClient = () => {
           </div>
         </div>
       )}
-      {isLoading && <Loader />}
     </Section>
   );
 };
