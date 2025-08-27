@@ -42,7 +42,7 @@ const NotesClient = () => {
 
   return (
     <div className={css.app}>
-      <header className={css.toolbar}>
+      <div className={css.toolbar}>
         <SearchBox onChange={onChangeSearch} />
         {data && data.totalPages > 1 && (
           <Pagination
@@ -54,7 +54,7 @@ const NotesClient = () => {
         <button className={css.button} onClick={onOpenModal} type="button">
           Create note +
         </button>
-      </header>
+      </div>
       {isError && error && <Error error={error as Error} />}
       {isSuccess && data && data?.notes.length > 0 ? (
         <NoteList notes={data.notes} />
